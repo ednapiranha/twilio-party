@@ -24,3 +24,11 @@ Use Twilio to authenticate and generate a PIN to verify.
       // `validate` will return either the phone hash or false - if it returns a
       // hash, you can store that as an identifier in your database.
     });
+
+## Tests
+
+    npm test
+
+## License
+
+BSD-3-Clause
