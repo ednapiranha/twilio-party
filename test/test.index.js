@@ -52,7 +52,27 @@ describe('TwilioParty', function() {
     });
   });
 
-  it('should validate a pin', function(done) {
+  it('should validate a correct pin', function(done) {
+    var phone = '+15555555555';
+    tp = new TwilioParty(sid, authToken, phoneNumber, phoneSalt);
+    tp.addNumber(phone, function(err) {
+      var validate = tp.validatePin(phone, tp.numberList[phone].pin);
 
+      validate.should.equal(true);
+      done();
+    });
+  });
+
+  it('should validate an incorrect pin', function(done) {
+    var phone = '+15555555555';
+    tp = new TwilioParty(sid, authToken, phoneNumber, phoneSalt);
+    tp.addNumber(phone, function(err) {
+      var validate = tp.validatePin(phone, '0');
+
+      validate.should.equal(false);
+      should.not.exist(tp.cache.get(phone));
+      should.not.exist(tp.numberList[phone]);
+      done();
+    });
   });
 });

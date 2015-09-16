@@ -55,7 +55,7 @@ TwilioParty.prototype = {
       return next(null, 'sent');
     }
 
-    client.sendMessage({
+    this._client.sendMessage({
       to: number,
       from: '+' + this._phoneNumber,
       body: this._numberList[number].pin
@@ -82,6 +82,16 @@ TwilioParty.prototype = {
     };
 
     this._sendPin(number, next);
+  },
+
+  validatePin: function(number, pin) {
+    if (this.cache.get(number) && this.cache.get(number) == pin) {
+      return true;
+    }
+
+    this.cache.del(number);
+    delete this._numberList[number];
+    return false;
   }
 };
 
