@@ -1,0 +1,29 @@
+{
+  "name": "twilio-party",
+  "version": "0.0.0",
+  "description": "Twilio + Pin helper for authentication",
+  "main": "index.js",
+  "dependencies": {
+    "crypto": "0.0.3",
+    "lru-cache": "^2.7.0",
+    "twilio": "^2.3.0"
+  },
+  "devDependencies": {
+    "mocha": "^2.3.2",
+    "nock": "^2.11.0",
+    "should": "^7.1.0"
+  },
+  "scripts": {
+    "test": "./node_modules/.bin/mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/niconone/twilio-party.git"
+  },
+  "keywords": [
+    "twilio",
+    "authentication"
+  ],
+  "author": "NICONONE",
+  "license": "GPL-3.0"
+}
