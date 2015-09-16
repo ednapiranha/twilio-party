@@ -23,7 +23,7 @@ describe('TwilioParty', function() {
     phone = '+1' + phone;
     tp.addNumber(phone, function(err) {
       should.exist(tp.numberList[phone]);
-      tp.numberList[phone].pin.toString().should.have.a.lengthOf(4);
+      tp.cache.get(phone).toString().should.have.a.lengthOf(4);
       should.exist(tp.numberList[phone].hashed);
       done();
     });
@@ -34,7 +34,7 @@ describe('TwilioParty', function() {
     tp = new TwilioParty(sid, authToken, phoneNumber, phoneSalt);
     tp.addNumber(phone, function(err) {
       should.exist(tp.numberList[phone]);
-      tp.numberList[phone].pin.toString().should.have.a.lengthOf(4);
+      tp.cache.get(phone).toString().should.have.a.lengthOf(4);
       should.exist(tp.numberList[phone].hashed);
       done();
     });
@@ -58,7 +58,7 @@ describe('TwilioParty', function() {
     tp.addNumber(phone, function(err) {
       var validate = tp.validatePin(phone, tp.numberList[phone].pin);
 
-      validate.should.equal(true);
+      validate.should.match(/[A-Z0-9]/i);
       done();
     });
   });

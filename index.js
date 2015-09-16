@@ -76,7 +76,6 @@ TwilioParty.prototype = {
     this.cache.set(number, pin);
 
     this._numberList[number] = {
-      pin: pin,
       hashed: crypto.createHash('sha1')
                     .update(this._phoneSalt + number).digest('hex')
     };
@@ -86,7 +85,7 @@ TwilioParty.prototype = {
 
   validatePin: function(number, pin) {
     if (this.cache.get(number) && this.cache.get(number) == pin) {
-      return true;
+      return this._numberList[number].hashed;
     }
 
     this.cache.del(number);
