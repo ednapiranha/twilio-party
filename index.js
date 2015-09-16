@@ -58,7 +58,7 @@ TwilioParty.prototype = {
     this._client.sendMessage({
       to: number,
       from: '+' + this._phoneNumber,
-      body: this._numberList[number].pin
+      body: this.cache.get(number)
     }, function (err) {
       if (err) {
         console.error(err);
