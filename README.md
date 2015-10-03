@@ -15,6 +15,10 @@ Use Twilio to authenticate and generate a PIN to verify.
 
     var tp = new TwilioParty(sid, authToken, phoneNumber, phoneSalt);
 
+    // optional messaging that prepends the PIN when it is sent to a phone
+    // e.g. This is your PIN: 1111
+    tp.message = 'This is your PIN:';
+
     // Add the number - this will generate a PIN and send it as a text.
     tp.addNumber(phone, function(err) {
       // At this point the `phone` number will receive a pin. Enter that pin in the

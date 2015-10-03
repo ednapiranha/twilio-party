@@ -9,6 +9,7 @@ var TwilioParty = function(sid, authToken, phoneNumber, phoneSalt) {
   this._authToken = authToken;
   this._phoneNumber = phoneNumber;
   this._phoneSalt = phoneSalt;
+  this.message = false;
   this._ttl = 1000 * 60 * 5; // 5 min
 
   if (process.env.NODE_ENV !== 'test') {
@@ -51,14 +52,20 @@ TwilioParty.prototype = {
   },
 
   _sendPin: function(number, next) {
+    var body = this.cache.get(number);
+
     if (process.env.NODE_ENV === 'test') {
       return next(null, 'sent');
+    }
+
+    if (this.message) {
+      body = this.message + ' ' + body;
     }
 
     this._client.sendMessage({
       to: number,
       from: '+' + this._phoneNumber,
-      body: this.cache.get(number)
+      body: body
     }, function (err) {
       if (err) {
         console.error(err);
