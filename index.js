@@ -42,6 +42,7 @@ TwilioParty.prototype = {
   },
 
   _validateNumber: function(number) {
+    number = number.replace(/[^0-9\+]/gi, '');
     if (number.match(/^[0-9]{10}$/)) {
       number = '+1' + number;
     } else if (number.indexOf('+') !== 0) {
