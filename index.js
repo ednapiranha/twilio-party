@@ -1,10 +1,10 @@
 'use strict';
 
-var crypto = require('crypto');
-var twilio = require('twilio');
-var LRU = require('lru-cache');
+const crypto = require('crypto');
+const twilio = require('twilio');
+const LRU = require('lru-cache');
 
-var TwilioParty = function(sid, authToken, phoneNumber, phoneSalt) {
+let TwilioParty = function(sid, authToken, phoneNumber, phoneSalt) {
   this._sid = sid;
   this._authToken = authToken;
   this._phoneNumber = phoneNumber;
@@ -53,7 +53,7 @@ TwilioParty.prototype = {
   },
 
   _sendPin: function(number, next) {
-    var body = this.cache.get(number);
+    const body = this.cache.get(number);
 
     if (process.env.NODE_ENV === 'test') {
       return next(null, 'sent');
@@ -78,7 +78,7 @@ TwilioParty.prototype = {
   },
 
   addNumber: function(number, next) {
-    var pin = this._generatePin();
+    const pin = this._generatePin();
     number = this._validateNumber(number);
 
     this.cache.set(number, pin);
