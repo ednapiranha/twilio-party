@@ -53,10 +53,10 @@ TwilioParty.prototype = {
   },
 
   _sendPin: function(number, next) {
-    const body = this.cache.get(number);
+    let body = this.cache.get(number);
 
     if (process.env.NODE_ENV === 'test') {
-      return next(null, 'sent');
+      return next(null, number);
     }
 
     if (this.message) {
@@ -67,13 +67,13 @@ TwilioParty.prototype = {
       to: number,
       from: '+' + this._phoneNumber,
       body: body
-    }, function (err) {
+    }, (err) => {
       if (err) {
         console.error(err);
         return next(err);
       }
 
-      next(null, 'sent');
+      next(null, number);
     });
   },
 

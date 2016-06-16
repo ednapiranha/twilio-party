@@ -21,7 +21,8 @@ describe('TwilioParty', () => {
     let phone = '5555555555';
     tp = new TwilioParty(sid, authToken, phoneNumber, phoneSalt);
     phone = '+1' + phone;
-    tp.addNumber(phone, (err) => {
+    tp.addNumber(phone, (err, number) => {
+      number.should.equal('+15555555555');
       should.exist(tp.numberList[phone]);
       tp.cache.get(phone).toString().should.have.a.lengthOf(4);
       should.exist(tp.numberList[phone].hashed);
@@ -32,7 +33,8 @@ describe('TwilioParty', () => {
   it('should add a new number with area code', (done) => {
     let phone = '+15555555555';
     tp = new TwilioParty(sid, authToken, phoneNumber, phoneSalt);
-    tp.addNumber(phone, function(err) {
+    tp.addNumber(phone, (err, number) => {
+      number.should.equal('+15555555555');
       should.exist(tp.numberList[phone]);
       tp.cache.get(phone).toString().should.have.a.lengthOf(4);
       should.exist(tp.numberList[phone].hashed);
@@ -41,11 +43,12 @@ describe('TwilioParty', () => {
   });
 
   it('should expire the pin for a number', (done) => {
-    let phone = '+15555555555';
+    let phone = '+25555555555';
     tp = new TwilioParty(sid, authToken, phoneNumber, phoneSalt);
     tp.ttl = 1;
-    tp.addNumber(phone, (err) => {
+    tp.addNumber(phone, (err, number) => {
       setTimeout(() => {
+        number.should.equal('+25555555555');
         should.not.exist(tp.cache.get(phone));
         done();
       }, 5);
@@ -53,25 +56,25 @@ describe('TwilioParty', () => {
   });
 
   it('should validate a correct pin', (done) => {
-    let phone = '+15555555555';
+    let phone = '15555555555';
     tp = new TwilioParty(sid, authToken, phoneNumber, phoneSalt);
-    tp.addNumber(phone, (err) => {
-      let validate = tp.validatePin(phone, tp.numberList[phone].pin);
-
+    tp.addNumber(phone, (err, number) => {
+      number.should.equal('+15555555555');
+      let validate = tp.validatePin(number, tp.numberList[number].pin);
       validate.should.match(/[A-Z0-9]/i);
       done();
     });
   });
 
   it('should validate an incorrect pin', (done) => {
-    let phone = '+15555555555';
+    let phone = '5555555555';
     tp = new TwilioParty(sid, authToken, phoneNumber, phoneSalt);
-    tp.addNumber(phone, (err) => {
-      let validate = tp.validatePin(phone, '0');
-
+    tp.addNumber(phone, (err, number) => {
+      number.should.equal('+15555555555');
+      let validate = tp.validatePin(number, '0');
       validate.should.equal(false);
-      should.not.exist(tp.cache.get(phone));
-      should.not.exist(tp.numberList[phone]);
+      should.not.exist(tp.cache.get(number));
+      should.not.exist(tp.numberList[number]);
       done();
     });
   });

@@ -20,10 +20,12 @@ Use Twilio to authenticate and generate a PIN to verify.
     tp.message = 'This is your PIN:';
 
     // Add the number - this will generate a PIN and send it as a text.
-    tp.addNumber(phone, function(err) {
+    tp.addNumber(phone, function(err, number) {
       // At this point the `phone` number will receive a pin. Enter that pin in the
       // call below. For example purposes, let's assume pin = 0000.
-      var validate = tp.validatePin(phone, '0000');
+      // `number` will contain the phone number in a consistent format, e.g. +155555555.
+      var formattedPhone = number;
+      var validate = tp.validatePin(formattedPhone, '0000');
 
       // `validate` will return either the phone hash or false - if it returns a
       // hash, you can store that as an identifier in your database.

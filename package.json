@@ -1,6 +1,6 @@
 {
   "name": "twilio-party",
-  "version": "1.4.0",
+  "version": "2.0.0",
   "description": "Twilio + PIN helper for authentication",
   "main": "index.js",
   "dependencies": {
